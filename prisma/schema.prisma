@@ -1,0 +1,121 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                                          Int             @id @default(autoincrement())
+  namaLengkap                                 String
+  nik                                         String @unique
+  tanggalLahir                                DateTime
+  tempatLahir                                 String
+  email                                       String          @unique
+  nomorTelepon                                String
+  instagram                                   String?
+  facebook                                    String?
+  alamat                                      String
+  kota                                        String
+  negara                                      String
+  kodePos                                     String
+  rtRw                                        String
+  kkFile                                      String?
+  role                                        String          @default("user")
+  photo       String?
+  bio         String?
+  isVerified  Boolean   @default(false)
+  twoFactorEnabled Boolean @default(false)
+  twoFactorSecret String?
+  language    String    @default("id") // bahasa
+
+  // Biometric data
+  biometricData String? // Face ID / Touch ID data
+
+
+  otpCode        String?   // untuk kode OTP
+  otpExpire      DateTime? // batas waktu OTP
+
+  createdAt                                   DateTime        @default(now())
+  updatedAt                                   DateTime        @updatedAt
+  // 🧩 relasi balik ke Announcement
+  announcements                               Announcement[] @relation("UserAnnouncements")
+
+  reports                                     Report[]
+  emergencies Emergency[]
+  volunteers Volunteer[]
+}
+
+model Announcement {
+  id                                                   Int       @id @default(autoincrement())
+  title                                                String
+  description                                          String
+  targetAudience String // untuk siapa pengumuman ini
+  date           DateTime // tanggal kegiatan
+  day            String // misalnya: "Senin", "Selasa"
+  createdAt                                            DateTime  @default(now())
+  updatedAt                                            DateTime  @updatedAt
+  createdBy                                            Int
+
+  // 🧩 relasi ke User
+  admin                                                User     @relation("UserAnnouncements", fields: [createdBy], references: [id])
+}
+
+model Report {
+  id          Int       @id @default(autoincrement())
+  title       String
+  description String
+  category    String
+  imageUrl    String?
+  status      String    @default("pending")
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  userId      Int
+  user        User     @relation(fields: [userId], references: [id])
+}
+
+model Emergency {
+  id             Int          @id @default(autoincrement())
+  type           String
+  details        String?
+  location       String?
+  latitude       String?
+  longitude      String?
+  needVolunteer  Boolean      @default(false) // TAMBAHAN: butuh relawan
+  volunteerCount Int          @default(0) // Jumlah relawan yang dibutuhkan
+  status         String       @default("ACTIVE")
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+  userId         Int?
+
+  // Relasi ke model Volunteer (jika ada relawan yang mendaftar)
+  volunteers     Volunteer[]
+
+  @@map("emergencies")
+  users User[]
+}
+
+// Model baru untuk relawan yang mendaftar
+model Volunteer {
+  id                                       Int        @id @default(autoincrement())
+  emergencyId                              Int
+  userId                                   Int?
+  userName    String?  // Nama relawan
+  userPhone   String?  // Kontak relawan
+  skills      String?  // Keahlian relawan
+  status                                   String     @default("REGISTERED") // REGISTERED, APPROVED, REJECTED
+  createdAt                                DateTime   @default(now())
+
+  emergency                                Emergency @relation(fields: [emergencyId], references: [id], onDelete: Cascade)
+
+  @@map("volunteers")
+  users User[]
+}
