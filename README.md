@@ -1,246 +1,98 @@
-NestJS Starter Repository - Enhanced Version
-Berikut adalah versi modifikasi dari README.md NestJS starter yang lebih informatif, terstruktur, dan profesional:
-
-markdown
 <p align="center">
-  <a href="http://nestjs.com/" target="blank">
-    <img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" />
-  </a>
+  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
 </p>
 
-[![NPM Version](https://img.shields.io/npm/v/@nestjs/core.svg)](https://www.npmjs.com/~nestjscore)
-[![NPM License](https://img.shields.io/npm/l/@nestjs/core.svg)](https://www.npmjs.com/~nestjscore)
-[![NPM Downloads](https://img.shields.io/npm/dm/@nestjs/common.svg)](https://www.npmjs.com/~nestjscore)
-[![CircleCI](https://img.shields.io/circleci/build/github/nestjs/nest/master)](https://circleci.com/gh/nestjs/nest)
-[![Discord](https://img.shields.io/badge/discord-online-brightgreen.svg)](https://discord.gg/G7Qnnhy)
-[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-[![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)
+[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
+[circleci-url]: https://circleci.com/gh/nestjs/nest
 
-## 🚀 NestJS Framework - Production Ready Starter
+  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
+    <p align="center">
+<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
+<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
+<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
+<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
+<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
+<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
+<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
+  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
+    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
+  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
+</p>
+  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
+  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
 
-A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient, reliable, and scalable server-side applications. Built with TypeScript and combining elements of OOP, FP, and FRP.
+## Description
 
-## ✨ Features
+[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
 
-- **🏗️ Architecture** - Modular architecture with Dependency Injection
-- **📚 TypeScript** - First-class TypeScript support
-- **🔌 Plugins** - Rich ecosystem of plugins and modules
-- **📖 Documentation** - Comprehensive documentation and guides
-- **🛠️ CLI** - Powerful command-line interface for boosting productivity
-- **🔒 Security** - Built-in security best practices and Helmet integration
-- **🧪 Testing** - Built-in testing utilities with Jest and Supertest
-
-## 🏃‍♂️ Quick Start
-
-### Prerequisites
-
-- Node.js (version 16 or higher)
-- npm or yarn package manager
-
-### Installation
+## Project setup
 
 ```bash
-# Clone the repository
-$ git clone <your-repo-url>
-$ cd <project-directory>
-
-# Install dependencies
 $ npm install
+```
 
-# Or using yarn
-$ yarn install
-Development
-bash
-# Start in development mode
+## Compile and run the project
+
+```bash
+# development
 $ npm run start
 
-# Start in watch mode (recommended for development)
+# watch mode
 $ npm run start:dev
 
-# Start with debug mode
-$ npm run start:debug
-Production
-bash
-# Build the project
-$ npm run build
-
-# Start in production mode
+# production mode
 $ npm run start:prod
-🧪 Testing
-bash
-# Unit tests
+```
+
+## Run tests
+
+```bash
+# unit tests
 $ npm run test
 
-# Unit tests with watch mode
-$ npm run test:watch
-
-# End-to-end tests
+# e2e tests
 $ npm run test:e2e
 
-# Test coverage
+# test coverage
 $ npm run test:cov
+```
 
-# All tests in CI mode
-$ npm run test:ci
-📦 Project Structure
-text
-src/
-├── main.ts                 # Application entry point
-├── app.module.ts          # Root module
-├── common/               # Shared modules and utilities
-├── config/               # Configuration files
-├── modules/              # Feature modules
-│   ├── users/
-│   ├── auth/
-│   └── ...
-├── filters/              # Exception filters
-├── interceptors/         # Request/response interceptors
-├── guards/               # Authentication guards
-├── pipes/                # Validation pipes
-└── decorators/           # Custom decorators
-🚀 Deployment
-Production Deployment
-When deploying to production, consider these optimizations:
+## Deployment
 
-Environment Configuration
+When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
 
-bash
-# Set environment variables
-$ export NODE_ENV=production
-$ export PORT=3000
-Build Optimization
+If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
 
-bash
-# Create production build
-$ npm run build
-
-# Start with process manager (recommended)
-$ npm install -g pm2
-$ pm2 start dist/main.js --name "nestjs-app"
-Cloud Deployment Options
-Official NestJS Mau Platform
-bash
-# Install Mau CLI
+```bash
 $ npm install -g @nestjs/mau
-
-# Deploy with Mau
 $ mau deploy
-Other Platforms
-Docker: Containerize your application
+```
 
-AWS: Use Elastic Beanstalk or ECS
+With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
 
-Heroku: Simple deployment with Git
+## Resources
 
-Vercel: Serverless deployment
+Check out a few resources that may come in handy when working with NestJS:
 
-Railway: Modern application hosting
+- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
+- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
+- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
+- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
+- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
+- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
+- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
+- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
 
-Docker Deployment
-dockerfile
-# Dockerfile example
-FROM node:18-alpine
+## Support
 
-WORKDIR /app
-COPY package*.json ./
-RUN npm ci --only=production
-COPY dist/ ./dist/
+Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
 
-EXPOSE 3000
-CMD ["node", "dist/main.js"]
-🛠️ Development Tools
-NestJS CLI Commands
-bash
-# Generate a new module
-$ nest generate module users
+## Stay in touch
 
-# Generate a new controller
-$ nest generate controller users
+- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
+- Website - [https://nestjs.com](https://nestjs.com/)
+- Twitter - [@nestframework](https://twitter.com/nestframework)
 
-# Generate a new service
-$ nest generate service users
+## License
 
-# Generate a new resource (CRUD)
-$ nest generate resource products
-Recommended VS Code Extensions
-NestJS Snippets
-
-TypeScript Importer
-
-Auto Import
-
-📚 Learning Resources
-Official Resources
-📖 Documentation - Comprehensive guides and API reference
-
-🎓 Video Courses - Official video tutorials
-
-🔧 DevTools - Development tools for NestJS
-
-💼 Enterprise Support - Professional support
-
-Community
-💬 Discord Community - Get help and connect with others
-
-🐙 GitHub Discussions - Q&A and discussions
-
-📰 Blog - Latest news and articles
-
-Third-party Resources
-Awesome NestJS - Curated list of resources
-
-NestJS Recipes - Code examples and patterns
-
-🤝 Contributing
-We welcome contributions! Please see our Contributing Guide for details.
-
-Fork the repository
-
-Create your feature branch (git checkout -b feature/amazing-feature)
-
-Commit your changes (git commit -m 'Add some amazing feature')
-
-Push to the branch (git push origin feature/amazing-feature)
-
-Open a Pull Request
-
-🐛 Bug Reports
-If you encounter any bugs or issues, please:
-
-Check existing issues
-
-Create a new issue with detailed information
-
-Include steps to reproduce, expected behavior, and actual behavior
-
-📄 License
-This project is licensed under the MIT License - see the LICENSE file for details.
-
-🙏 Acknowledgments
-Thanks to all contributors
-
-Inspired by Angular and Spring frameworks
-
-Built with passion by the NestJS team and community
-
-📞 Support
-Community Support
-Discord - Real-time community support
-
-Stack Overflow - Q&A platform
-
-GitHub Issues - Bug reports and feature requests
-
-Enterprise Support
-Need professional support for your project? Check out our enterprise support options.
-
-🌟 Stay Connected
-Website: https://nestjs.com
-
-Twitter: @nestframework
-
-LinkedIn: NestJS
-
-Jobs: NestJS Jobs Board
-
-<div align="center"> <sub>Built with ❤️ by <a href="https://twitter.com/kammysliwiec">Kamil Myśliwiec</a> and <a href="https://github.com/nestjs/nest/graphs/contributors">contributors</a></sub> </div> ```
+Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
