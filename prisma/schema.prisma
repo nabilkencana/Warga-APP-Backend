@@ -13,109 +13,140 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+// schema.prisma (PERBAIKAN)
 model User {
-  id                                          Int             @id @default(autoincrement())
-  namaLengkap                                 String
-  nik                                         String @unique
-  tanggalLahir                                DateTime
-  tempatLahir                                 String
-  email                                       String          @unique
-  nomorTelepon                                String
-  instagram                                   String?
-  facebook                                    String?
-  alamat                                      String
-  kota                                        String
-  negara                                      String
-  kodePos                                     String
-  rtRw                                        String
-  kkFile                                      String?
-  role                                        String          @default("user")
-  photo       String?
-  bio         String?
-  isVerified  Boolean   @default(false)
-  twoFactorEnabled Boolean @default(false)
-  twoFactorSecret String?
-  language    String    @default("id") // bahasa
+  id                                               Int             @id @default(autoincrement())
+  namaLengkap                                      String
+  nik                                              String          @unique
+  tanggalLahir                                     DateTime
+  tempatLahir                                      String
+  email                                            String          @unique
+  nomorTelepon                                     String
+  instagram                                        String?
+  facebook                                         String?
+  alamat                                           String
+  kota                                             String
+  negara                                           String
+  kodePos                                          String
+  rtRw                                             String
+  kkFile                                           String?
+  role                                             String          @default("user")
+  photo                                            String?
+  bio                                              String?
+  isVerified                                       Boolean         @default(false)
+  twoFactorEnabled                                 Boolean         @default(false)
+  twoFactorSecret                                  String?
+  language                                         String          @default("id")
+  biometricData                                    String?
+  otpCode                                          String?
+  otpExpire                                        DateTime?
+  createdAt                                        DateTime        @default(now())
+  updatedAt                                        DateTime        @updatedAt
 
-  // Biometric data
-  biometricData String? // Face ID / Touch ID data
+  // Relations
+  announcements                                    Announcement[]
+  reports                                          Report[]
+  emergencies                                      Emergency[]
+  volunteers                                       Volunteer[]
 
-
-  otpCode        String?   // untuk kode OTP
-  otpExpire      DateTime? // batas waktu OTP
-
-  createdAt                                   DateTime        @default(now())
-  updatedAt                                   DateTime        @updatedAt
-  // 🧩 relasi balik ke Announcement
-  announcements                               Announcement[] @relation("UserAnnouncements")
-
-  reports                                     Report[]
-  emergencies Emergency[]
-  volunteers Volunteer[]
+  adminDashboards AdminDashboard[]
+  activityLogs ActivityLog[]
 }
 
 model Announcement {
   id                                                   Int       @id @default(autoincrement())
   title                                                String
   description                                          String
-  targetAudience String // untuk siapa pengumuman ini
-  date           DateTime // tanggal kegiatan
-  day            String // misalnya: "Senin", "Selasa"
+  targetAudience                                       String
+  date                                                 DateTime
+  day                                                  String?
   createdAt                                            DateTime  @default(now())
   updatedAt                                            DateTime  @updatedAt
   createdBy                                            Int
 
-  // 🧩 relasi ke User
-  admin                                                User     @relation("UserAnnouncements", fields: [createdBy], references: [id])
+  // Relation ke User
+  admin                                                User      @relation(fields: [createdBy], references: [id], onDelete: Cascade)
 }
 
 model Report {
-  id          Int       @id @default(autoincrement())
+  id          Int      @id @default(autoincrement())
   title       String
   description String
   category    String
   imageUrl    String?
-  status      String    @default("pending")
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
+  status      String   @default("pending")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
   userId      Int
-  user        User     @relation(fields: [userId], references: [id])
+
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Emergency {
-  id             Int          @id @default(autoincrement())
+  id             Int      @id @default(autoincrement())
   type           String
   details        String?
   location       String?
   latitude       String?
   longitude      String?
-  needVolunteer  Boolean      @default(false) // TAMBAHAN: butuh relawan
-  volunteerCount Int          @default(0) // Jumlah relawan yang dibutuhkan
-  status         String       @default("ACTIVE")
-  createdAt      DateTime     @default(now())
-  updatedAt      DateTime     @updatedAt
+  needVolunteer  Boolean  @default(false)
+  volunteerCount Int      @default(0)
+  status         String   @default("ACTIVE")
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
   userId         Int?
 
-  // Relasi ke model Volunteer (jika ada relawan yang mendaftar)
   volunteers     Volunteer[]
+  user           User?     @relation(fields: [userId], references: [id])
 
   @@map("emergencies")
-  users User[]
 }
 
-// Model baru untuk relawan yang mendaftar
 model Volunteer {
-  id                                       Int        @id @default(autoincrement())
-  emergencyId                              Int
-  userId                                   Int?
-  userName    String?  // Nama relawan
-  userPhone   String?  // Kontak relawan
-  skills      String?  // Keahlian relawan
-  status                                   String     @default("REGISTERED") // REGISTERED, APPROVED, REJECTED
-  createdAt                                DateTime   @default(now())
+  id          Int      @id @default(autoincrement())
+  emergencyId Int
+  userId      Int?
+  userName    String?
+  userPhone   String?
+  skills      String?
+  status      String   @default("REGISTERED")
+  createdAt   DateTime @default(now())
 
-  emergency                                Emergency @relation(fields: [emergencyId], references: [id], onDelete: Cascade)
+  emergency   Emergency @relation(fields: [emergencyId], references: [id], onDelete: Cascade)
+  user        User?     @relation(fields: [userId], references: [id])
 
   @@map("volunteers")
-  users User[]
+}
+
+model AdminDashboard {
+  id                 Int       @id @default(autoincrement())
+  totalUsers         Int       @default(0)
+  totalReports       Int       @default(0)
+  totalEmergencies   Int       @default(0)
+  totalVolunteers    Int       @default(0)
+  totalVerifiedUsers Int       @default(0)
+  totalActiveEmergencies Int   @default(0)
+  reportPendingCount Int       @default(0)
+  reportResolvedCount Int      @default(0)
+  date               DateTime  @default(now())
+
+  // Relasi ke admin yang membuat laporan statistik
+  adminId            Int
+  admin              User      @relation(fields: [adminId], references: [id], onDelete: Cascade)
+
+  @@map("admin_dashboards")
+}
+
+model ActivityLog {
+  id          Int      @id @default(autoincrement())
+  action      String
+  description String?
+  timestamp   DateTime @default(now())
+  ipAddress   String?
+  userAgent   String?
+  adminId     Int
+
+  admin       User      @relation(fields: [adminId], references: [id], onDelete: Cascade)
+
+  @@map("activity_logs")
 }

@@ -8,10 +8,11 @@ import { ConfigModule } from '@nestjs/config';
 import { AnnouncementsModule } from './announcements/announcements.module';
 import { ReportsModule } from './reports/reports.module';
 import { EmergencyModule } from './emergency/emergency.module';
+import { AdminModule } from './admin/admin.module';
 
 @Module({
   imports: [UsersModule,  AuthModule, PrismaModule , 
-    ConfigModule.forRoot({ isGlobal: true }), AnnouncementsModule, ReportsModule,EmergencyModule // 🔥 aktifkan .env
+    ConfigModule.forRoot({ isGlobal: true }), AnnouncementsModule, ReportsModule,EmergencyModule , AdminModule// 🔥 aktifkan .env
   ],
   controllers: [AppController],
   providers: [AppService],
