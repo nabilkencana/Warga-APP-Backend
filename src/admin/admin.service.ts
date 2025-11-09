@@ -32,6 +32,21 @@ export class AdminService {
         };
     }
 
+    async getRecentUsers() { // DIUBAH: getRecentusers -> getRecentUsers
+        return this.prisma.user.findMany({
+            orderBy: { createdAt: 'desc' },
+            take: 5,
+            select: {
+                id: true,
+                namaLengkap: true,
+                email: true,
+                role: true,
+                createdAt: true,
+                updatedAt: true,
+            },
+        });
+    }
+
     async getRecentReports() {
         return this.prisma.report.findMany({
             orderBy: { createdAt: 'desc' },
