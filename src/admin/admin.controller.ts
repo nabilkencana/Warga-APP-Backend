@@ -31,4 +31,10 @@ export class AdminController {
     async getRecentUsers() { // DIUBAH: getRecentusers -> getRecentUsers
         return this.adminService.getRecentUsers();
     }
+
+    // TAMBAHKAN ENDPOINT BARU UNTUK SEMUA USER
+    @Get('all/users')
+    async getAllUsers() {
+        return this.adminService.getAllUsers();
+    }
 }

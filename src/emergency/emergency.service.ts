@@ -4,9 +4,6 @@ import { PrismaService } from '../prisma/prisma.service';
 
 @Injectable()
 export class EmergencyService {
-    getAllEmergencies() {
-        throw new Error('Method not implemented.');
-    }
     constructor(private prisma: PrismaService) { }
 
     // Create new emergency SOS dengan fitur relawan
@@ -50,6 +47,18 @@ export class EmergencyService {
                         status: 'APPROVED',
                     },
                 },
+            },
+            orderBy: {
+                createdAt: 'desc',
+            },
+        });
+    }
+
+    // Get all emergencies
+    async getAllEmergencies() {
+        return this.prisma.emergency.findMany({
+            include: {
+                volunteers: true,
             },
             orderBy: {
                 createdAt: 'desc',

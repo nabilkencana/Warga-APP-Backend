@@ -58,7 +58,13 @@ export class AnnouncementsService {
 
         return this.prisma.announcement.update({
             where: { id },
-            data,
+            data: {
+                title: data.title,
+                description: data.description,
+                targetAudience: data.targetAudience,
+                date: new Date(data.date), // ✅ ubah jadi Date object
+                day: data.day,
+            },
         });
     }
 

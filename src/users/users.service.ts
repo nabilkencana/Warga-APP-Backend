@@ -75,11 +75,24 @@ export class UsersService {
         }
       }
 
+      // 🟢 FIX: Validasi dan konversi tanggalLahir
+      let tanggalLahirDate: Date;
+      if (createUserDto.tanggalLahir) {
+        tanggalLahirDate = new Date(createUserDto.tanggalLahir);
+
+        // Validasi apakah tanggal valid
+        if (isNaN(tanggalLahirDate.getTime())) {
+          throw new BadRequestException('Format tanggal lahir tidak valid. Gunakan format YYYY-MM-DD');
+        }
+      } else {
+        throw new BadRequestException('Tanggal lahir harus diisi');
+      }
+
       const user = await this.prisma.user.create({
         data: {
           namaLengkap: createUserDto.namaLengkap,
           nik: createUserDto.nik,
-          tanggalLahir: new Date(createUserDto.tanggalLahir),
+          tanggalLahir: tanggalLahirDate,
           tempatLahir: createUserDto.tempatLahir,
           email: createUserDto.email,
           nomorTelepon: createUserDto.nomorTelepon,
@@ -214,7 +227,14 @@ export class UsersService {
 
       if (updateUserDto.namaLengkap) updateData.namaLengkap = updateUserDto.namaLengkap;
       if (updateUserDto.nik) updateData.nik = updateUserDto.nik;
-      if (updateUserDto.tanggalLahir) updateData.tanggalLahir = new Date(updateUserDto.tanggalLahir);
+      // 🟢 FIX: Validasi dan konversi tanggalLahir untuk update
+      if (updateUserDto.tanggalLahir) {
+        const tanggalLahirDate = new Date(updateUserDto.tanggalLahir);
+        if (isNaN(tanggalLahirDate.getTime())) {
+          throw new BadRequestException('Format tanggal lahir tidak valid. Gunakan format YYYY-MM-DD');
+        }
+        updateData.tanggalLahir = tanggalLahirDate;
+      }
       if (updateUserDto.tempatLahir) updateData.tempatLahir = updateUserDto.tempatLahir;
       if (updateUserDto.email) updateData.email = updateUserDto.email;
       if (updateUserDto.nomorTelepon) updateData.nomorTelepon = updateUserDto.nomorTelepon;

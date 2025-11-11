@@ -47,6 +47,21 @@ export class AdminService {
         });
     }
 
+    // TAMBAHKAN METHOD BARU UNTUK MENGAMBIL SEMUA USER
+    async getAllUsers() {
+        return this.prisma.user.findMany({
+            orderBy: { createdAt: 'desc' },
+            // HAPUS take: 5 untuk mengambil semua data
+            select: {
+                id: true,
+                namaLengkap: true,
+                email: true,
+                role: true,
+                createdAt: true,
+                updatedAt: true,
+            },
+        });
+    }
     async getRecentReports() {
         return this.prisma.report.findMany({
             orderBy: { createdAt: 'desc' },
