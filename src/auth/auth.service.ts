@@ -74,11 +74,20 @@ export class AuthService {
     // Reset OTP setelah berhasil login
     await this.usersService.clearOtp(email);
 
-    await this.prisma.user.update({
-      where: { email },
-      data: { otpCode: null, otpExpire: null },
-    });
+    // Kembalikan data user yang lengkap (tanpa password dan OTP)
+    const userResponse = {
+      id: user.id,
+      email: user.email,
+      name: user.namaLengkap,
+      role: user.role,
+      createdAt: user.createdAt,
+      updatedAt: user.updatedAt,
+    };
+
     return {
-      message: 'Login berhasil', user , access_token: token,};
+      message: 'Login berhasil',
+      user: userResponse, // Pastikan ini ada
+      access_token: token,
+    };
   }
 }
