@@ -42,8 +42,50 @@ export class AuthService {
       await transporter.sendMail({
         from: `"WargaApp" <${this.config.get('EMAIL_USER')}>`,
         to: email,
-        subject: 'Kode OTP Login Anda',
-        text: `Kode OTP Anda adalah ${otp}. Berlaku selama 5 menit.`,
+        subject: '🔐 Kode OTP untuk Login - WargaApp',
+        html: `
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <meta charset="utf-8">
+      <style>
+        body { font-family: 'Segoe UI', Arial, sans-serif; margin: 0; padding: 20px; background-color: #f8f9fa; }
+        .container { max-width: 600px; margin: 0 auto; background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        .header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 30px; text-align: center; color: white; }
+        .content { padding: 30px; }
+        .otp-code { font-size: 32px; font-weight: bold; color: #667eea; text-align: center; letter-spacing: 8px; margin: 20px 0; }
+        .footer { background: #f8f9fa; padding: 20px; text-align: center; color: #6c757d; font-size: 12px; }
+        .warning { background: #fff3cd; border: 1px solid #ffeaa7; border-radius: 6px; padding: 12px; margin: 20px 0; }
+      </style>
+    </head>
+    <body>
+      <div class="container">
+        <div class="header">
+          <h1>🔐 WargaApp</h1>
+          <p>Kode Verifikasi Login Anda</p>
+        </div>
+        <div class="content">
+          <h2>Halo!</h2>
+          <p>Anda baru saja meminta kode OTP untuk login ke akun WargaApp. Gunakan kode berikut:</p>
+          
+          <div class="otp-code">${otp}</div>
+          
+          <div class="warning">
+            <strong>⏰ Masa Berlaku:</strong> 5 menit<br>
+            <strong>🔒 Jangan bagikan kode ini kepada siapapun!</strong>
+          </div>
+          
+          <p>Jika Anda tidak meminta kode ini, silakan abaikan email ini.</p>
+        </div>
+        <div class="footer">
+          <p>&copy; 2024 WargaApp. All rights reserved.</p>
+          <p>Email ini dikirim secara otomatis, mohon tidak membalas.</p>
+        </div>
+      </div>
+    </body>
+    </html>
+  `,
+        text: `Kode OTP Anda: ${otp}. Berlaku selama 5 menit. Jangan bagikan kode ini kepada siapapun.`
       });
 
       return { message: 'OTP berhasil dikirim ke email , Cek folder spam' };
