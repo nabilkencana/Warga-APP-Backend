@@ -2,6 +2,7 @@
 import { Injectable, NotFoundException, ConflictException, BadRequestException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateUserDto, UpdateUserDto } from './dto/create-user.dto';
+import { Prisma } from '@prisma/client';
 
 @Injectable()
 export class UsersService {
@@ -13,8 +14,8 @@ export class UsersService {
 
     const whereCondition = search ? {
       OR: [
-        { namaLengkap: { contains: search, mode: 'insensitive' } },
-        { email: { contains: search, mode: 'insensitive' } },
+        { namaLengkap: { contains: search, mode: Prisma.QueryMode.insensitive, } },
+        { email: { contains: search, mode: Prisma.QueryMode.insensitive, } },
         { nik: { contains: search } },
         { nomorTelepon: { contains: search } },
       ],
