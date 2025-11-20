@@ -6,32 +6,32 @@ export class CreateUserDto {
     @ApiProperty({ description: 'Nama lengkap user' })
     @IsNotEmpty()
     @IsString()
-    namaLengkap: string;
+    namaLengkap!: string;
 
     @ApiProperty({ description: 'NIK (Nomor Induk Kependudukan)' })
     @IsNotEmpty()
     @IsString()
-    nik: string;
+    nik!: string;
 
     @ApiProperty({ description: 'Tanggal lahir' })
     @IsNotEmpty()
     @IsDateString()
-    tanggalLahir: string;
+    tanggalLahir!: string;
 
     @ApiProperty({ description: 'Tempat lahir' })
     @IsNotEmpty()
     @IsString()
-    tempatLahir: string;
+    tempatLahir!: string;
 
     @ApiProperty({ description: 'Email user' })
     @IsNotEmpty()
     @IsEmail()
-    email: string;
+    email!: string;
 
     @ApiProperty({ description: 'Nomor telepon' })
     @IsNotEmpty()
     @IsPhoneNumber('ID')
-    nomorTelepon: string;
+    nomorTelepon!: string;
 
     @ApiProperty({ description: 'Username Instagram', required: false })
     @IsOptional()
@@ -46,27 +46,27 @@ export class CreateUserDto {
     @ApiProperty({ description: 'Alamat lengkap' })
     @IsNotEmpty()
     @IsString()
-    alamat: string;
+    alamat!: string;
 
     @ApiProperty({ description: 'Kota' })
     @IsNotEmpty()
     @IsString()
-    kota: string;
+    kota!: string;
 
     @ApiProperty({ description: 'Negara' })
     @IsNotEmpty()
     @IsString()
-    negara: string;
+    negara!: string;
 
     @ApiProperty({ description: 'Kode pos' })
     @IsNotEmpty()
     @IsPostalCode('ID')
-    kodePos: string;
+    kodePos!: string;
 
     @ApiProperty({ description: 'RT/RW' })
     @IsNotEmpty()
     @IsString()
-    rtRw: string;
+    rtRw!: string;
 }
 
 export class UpdateUserDto {

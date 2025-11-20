@@ -37,8 +37,10 @@ export class EmergencyController {
 
             return this.emergencyService.createSOS(emergencyData);
         } catch (error) {
-            throw new BadRequestException(error.message || 'Gagal membuat SOS');
+            const message = error instanceof Error ? error.message : String(error);
+            throw new BadRequestException(message || 'Gagal ...');
         }
+
     }
 
     // GET - Get all active emergencies

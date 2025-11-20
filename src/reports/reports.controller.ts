@@ -61,7 +61,8 @@ export class ReportsController {
 
             return this.reportsService.create(reportData);
         } catch (error) {
-            throw new BadRequestException(error.message || 'Gagal membuat laporan');
+            const message = error instanceof Error ? error.message : String(error);
+            throw new BadRequestException(message || 'Gagal ...');
         }
     }
 
@@ -118,7 +119,8 @@ export class ReportsController {
 
             return this.reportsService.update(id, updateData);
         } catch (error) {
-            throw new BadRequestException(error.message || 'Gagal update laporan');
+            const message = error instanceof Error ? error.message : String(error);
+            throw new BadRequestException(message || 'Gagal ...');
         }
     }
 
