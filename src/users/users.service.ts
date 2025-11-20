@@ -14,10 +14,10 @@ export class UsersService {
 
     const whereCondition = search ? {
       OR: [
-        { namaLengkap: { contains: search, mode: "insensitive" as Prisma.QueryMode } },
-        { email: { contains: search, mode: "insensitive" as Prisma.QueryMode } },
-        { nik: { contains: search, mode: "insensitive" as Prisma.QueryMode } },
-        { nomorTelepon: { contains: search, mode: "insensitive" as Prisma.QueryMode } },
+        { namaLengkap: { contains: search } },
+        { email: { contains: search} },
+        { nik: { contains: search } },
+        { nomorTelepon: { contains: search } },
       ],
     } : {};
 
