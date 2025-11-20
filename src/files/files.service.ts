@@ -1,14 +1,14 @@
 // src/files/files.service.ts
-import { Injectable, BadRequestException } from '@nestjs/common';
+import { Injectable, BadRequestException, InternalServerErrorException } from '@nestjs/common';
 import { existsSync, mkdirSync } from 'fs';
-import { join } from 'path';
+import { promises as fs } from 'fs';
+import { join, extname } from 'path';
 
 @Injectable()
 export class FilesService {
-    private readonly uploadPath = join(__dirname, '..', '..', 'uploads');
+    private readonly uploadPath = join(process.cwd(), 'uploads');
 
     constructor() {
-        // Buat folder uploads jika belum ada
         if (!existsSync(this.uploadPath)) {
             mkdirSync(this.uploadPath, { recursive: true });
         }
@@ -18,30 +18,33 @@ export class FilesService {
         if (!file) {
             throw new BadRequestException('File tidak ditemukan');
         }
-
-        // Validasi tipe file
-        const allowedMimes = ['image/jpeg', 'image/png', 'image/jpg', 'image/gif'];
-        if (!allowedMimes.includes(file.mimetype)) {
-            throw new BadRequestException('Hanya file gambar (JPEG, PNG, JPG, GIF) yang diizinkan');
+        // Validasi ukuran file (optional)
+        if (file.size && file.size > 10 * 1024 * 1024) {
+            throw new BadRequestException('Ukuran file maksimal 10MB');
         }
 
-        // Validasi ukuran file (max 5MB)
-        const maxSize = 5 * 1024 * 1024;
-        if (file.size > maxSize) {
-            throw new BadRequestException('Ukuran file maksimal 5MB');
+        try {
+            let extension = extname(file.originalname || '').replace('.', '').toLowerCase();
+            if (!extension) extension = 'bin';
+
+            const timestamp = Date.now();
+            const randomString = Math.random().toString(36).substring(2, 10);
+            const fileName = `upload_${timestamp}_${randomString}.${extension}`;
+            const destPath = join(this.uploadPath, fileName);
+
+            if (file.buffer && file.buffer.length > 0) {
+                await fs.writeFile(destPath, file.buffer);
+            } else if ((file as any).path) {
+                const data = await fs.readFile((file as any).path);
+                await fs.writeFile(destPath, data);
+                try { await fs.unlink((file as any).path); } catch { }
+            } else {
+                throw new BadRequestException('File tidak dapat diproses');
+            }
+
+            return `/uploads/${fileName}`;
+        } catch (err) {
+            throw new InternalServerErrorException('Gagal menyimpan file');
         }
-
-        // Generate nama file unik
-        const timestamp = Date.now();
-        const randomString = Math.random().toString(36).substring(2, 15);
-        const fileExtension = file.originalname.split('.').pop();
-        const fileName = `report_${timestamp}_${randomString}.${fileExtension}`;
-        const filePath = join(this.uploadPath, fileName);
-
-        // Simpan file secara lokal
-        const fs = require('fs').promises;
-        await fs.writeFile(filePath, file.buffer);
-
-        return `/uploads/${fileName}`;
     }
 }
